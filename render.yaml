@@ -1,0 +1,27 @@
+# render.yaml - Multi-environment setup for basic-tutorial-fastapi
+services:
+  - type: web
+    name: basic-tutorial-fastapi-Prod
+    env: python
+    branch: main
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        value: "postgresql://<prod_user>:<prod_pass>@<prod_host>/fastapi_auth_db"
+      - key: SECRET_KEY
+        value: "supersecretkey_prod"
+
+  - type: web
+    name: basic-tutorial-fastapi-test
+    env: python
+    branch: develop
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        value: "postgresql://<test_user>:<test_pass>@<test_host>/fastapi_auth_db_test"
+      - key: SECRET_KEY
+        value: "supersecretkey_test"
