@@ -1,37 +1,24 @@
 services:
   - type: web
-    name: discharge-backend
-    env: python
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.4
-        
-# render.yaml - Multi-environment setup for basic-tutorial-fastapi
-services:
-  - type: web
     name: basic-tutorial-fastapi-Prod
     env: python
     branch: main
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
-    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
     envVars:
       - key: DATABASE_URL
-        value: "postgresql://<prod_user>:<prod_pass>@<prod_host>/fastapi_auth_db"
+        value: postgresql://prod_user:prod_pass@prod_host/prod_db
       - key: SECRET_KEY
-        value: "supersecretkey_prod"
+        value: supersecretkey_prod
 
   - type: web
-    name: basic-tutorial-fastapi-test
+    name: basic-tutorial-fastapi-Test
     env: python
     branch: develop
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
-    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
     envVars:
       - key: DATABASE_URL
-        value: "postgresql://<test_user>:<test_pass>@<test_host>/fastapi_auth_db_test"
+        value: postgresql://test_user:test_pass@test_host/test_db
       - key: SECRET_KEY
-        value: "supersecretkey_test"
+        value: supersecretkey_test
